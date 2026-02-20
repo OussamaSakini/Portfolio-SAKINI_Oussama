@@ -1,199 +1,178 @@
-import { useTheme } from "../context/ThemeContext";
-import { PulseDot } from "./UI";
-import { useInView } from "../hooks";
-
-const SOCIAL = [
-  {
-    label: "LinkedIn",
-    href: "https://linkedin.com/in/oussama-sakini",
-    icon: (
-      <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z" />
-        <circle cx="4" cy="4" r="2" />
-      </svg>
-    ),
-  },
-  {
-    label: "GitHub",
-    href: "https://github.com/Oussama-Sakini",
-    icon: (
-      <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z" />
-      </svg>
-    ),
-  },
-];
-
-function ContactCard({ icon, label, value, href, color, t }) {
-  const [ref, vis] = useInView();
-  return (
-    <a
-      ref={ref}
-      href={href}
-      style={{
-        display: "flex",
-        alignItems: "center",
-        gap: 16,
-        padding: "20px 28px",
-        borderRadius: 18,
-        background: t.bgCard,
-        border: `1px solid ${t.border}`,
-        textDecoration: "none",
-        color: t.text,
-        cursor: "none",
-        transition: "all 0.35s",
-        opacity: vis ? 1 : 0,
-        transform: vis ? "translateY(0)" : "translateY(20px)",
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.borderColor = color + "55";
-        e.currentTarget.style.background = color + "08";
-        e.currentTarget.style.boxShadow = `0 0 30px ${color}15`;
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.borderColor = t.border;
-        e.currentTarget.style.background = t.bgCard;
-        e.currentTarget.style.boxShadow = "none";
-      }}
-    >
-      <div
-        style={{
-          width: 44,
-          height: 44,
-          borderRadius: 12,
-          background: color + "15",
-          border: `1px solid ${color}30`,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          color,
-          flexShrink: 0,
-        }}
-      >
-        {icon}
-      </div>
-      <div>
-        <p style={{ fontSize: 11, color: t.textSub, letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 3 }}>{label}</p>
-        <p style={{ fontSize: 15, fontWeight: 600 }}>{value}</p>
-      </div>
-    </a>
-  );
-}
+import { useState } from "react";
+import { C } from "../styles/colors";
+import SectionHeader from "./SectionHeader";
 
 export default function Contact() {
-  const t = useTheme();
-  const [ref, vis] = useInView();
+    const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
+    const [status, setStatus] = useState("idle"); // idle | sending | sent | error
+    const [focused, setFocused] = useState(null);
+    const [errors, setErrors] = useState({});
 
-  return (
-    <section
-      id="contact"
-      style={{
-        padding: "130px 60px",
-        borderTop: `1px solid ${t.border}`,
-        background: t.bg,
-        transition: "background 0.4s",
-      }}
-    >
-      <div style={{ maxWidth: 760, margin: "0 auto" }}>
-        {/* Header */}
-        <div
-          ref={ref}
-          style={{
-            textAlign: "center",
-            marginBottom: 64,
-            opacity: vis ? 1 : 0,
-            transform: vis ? "translateY(0)" : "translateY(24px)",
-            transition: "all 0.7s",
-          }}
-        >
-          <div
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              padding: "7px 16px",
-              borderRadius: 999,
-              background: "rgba(74,255,167,0.08)",
-              border: "1px solid rgba(74,255,167,0.2)",
-              marginBottom: 28,
-            }}
-          >
-            <PulseDot />
-            <span style={{ color: "#4AFFA7", fontSize: 13 }}>Disponible immédiatement</span>
-          </div>
+    const validate = () => {
+        const e = {};
+        if (!form.name.trim()) e.name = "Nom requis";
+        if (!form.email.trim() || !/\S+@\S+\.\S+/.test(form.email)) e.email = "Email invalide";
+        if (!form.subject.trim()) e.subject = "Sujet requis";
+        if (!form.message.trim() || form.message.length < 10) e.message = "Message trop court (min. 10 car.)";
+        return e;
+    };
 
-          <h2
-            style={{
-              fontFamily: "Clash Display, sans-serif",
-              fontSize: "clamp(40px, 6vw, 72px)",
-              fontWeight: 700,
-              letterSpacing: "-0.03em",
-              lineHeight: 1.05,
-              marginBottom: 20,
-              color: t.text,
-            }}
-          >
-            Travaillons<br />
-            <span className="text-gradient">ensemble</span>
-          </h2>
+    const handleSubmit = () => {
+        const e = validate();
+        if (Object.keys(e).length > 0) { setErrors(e); return; }
+        setErrors({});
+        setStatus("sending");
+        // Simulate send
+        setTimeout(() => setStatus("sent"), 2000);
+    };
 
-          <p style={{ color: t.textMuted, fontSize: 17, lineHeight: 1.7, maxWidth: 460, margin: "0 auto" }}>
-            Je suis à la recherche d'une opportunité en Data Science, ML ou IA générative.
-            N'hésitez pas à me contacter !
-          </p>
-        </div>
+    const inputStyle = (field) => ({
+        width: "100%", padding: "0.85rem 1rem", borderRadius: 10,
+        border: `2px solid ${errors[field] ? C.pink : focused === field ? C.blue : "rgba(99,102,241,0.2)"}`,
+        background: focused === field ? "rgba(37,99,235,0.03)" : "rgba(255,255,255,0.8)",
+        color: C.text, fontFamily: "'Lato', sans-serif", fontSize: "0.95rem",
+        outline: "none", transition: "all 0.25s", boxSizing: "border-box",
+        backdropFilter: "blur(6px)",
+        boxShadow: focused === field ? `0 0 0 4px ${C.blue}18` : "none",
+    });
 
-        {/* Contact cards */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 40 }}>
-          <ContactCard
-            icon={<svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>}
-            label="Email"
-            value="sakini.oussama@gmail.com"
-            href="mailto:sakini.oussama@gmail.com"
-            color="#4AFFA7"
-            t={t}
-          />
-          <ContactCard
-            icon={<svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 2 3.19a2 2 0 0 1 2-2.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8 8.91a16 16 0 0 0 6.56 6.56l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>}
-            label="Téléphone"
-            value="+33 7 58 67 57 34"
-            href="tel:+33758675734"
-            color="#A78BFA"
-            t={t}
-          />
-        </div>
+    const infos = [
+        { icon: "📧", label: "Email", val: "sakini.oussama@gmail.com", href: "mailto:sakini.oussama@gmail.com", color: C.blue },
+        { icon: "📞", label: "Téléphone", val: "+33 7 58 67 57 34", href: "tel:+33758675734", color: C.violet },
+        { icon: "📍", label: "Localisation", val: "Reims, France", href: null, color: C.pink },
+        { icon: "💼", label: "LinkedIn", val: "Oussama SAKINI", href: "https://linkedin.com/in/oussama-sakini", color: C.cyan },
+    ];
 
-        {/* Social links */}
-        <div style={{ display: "flex", gap: 14, justifyContent: "center" }}>
-          {SOCIAL.map((s) => (
-            <a
-              key={s.label}
-              href={s.href}
-              target="_blank"
-              rel="noreferrer"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-                padding: "12px 24px",
-                borderRadius: 12,
-                background: t.bgCard,
-                border: `1px solid ${t.border}`,
-                color: t.textMuted,
-                fontSize: 14,
-                fontWeight: 500,
-                textDecoration: "none",
-                cursor: "none",
-                transition: "all 0.3s",
-              }}
-              onMouseEnter={(e) => { e.currentTarget.style.color = t.text; e.currentTarget.style.borderColor = t.borderHover; }}
-              onMouseLeave={(e) => { e.currentTarget.style.color = t.textMuted; e.currentTarget.style.borderColor = t.border; }}
-            >
-              {s.icon} {s.label}
-            </a>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
+    return (
+        <section id="contact" style={{ padding: "6rem 2rem", position: "relative", zIndex: 1, width: "100%", margin: "0 auto" }}>
+            <SectionHeader title="Contact" subtitle="Disponible immédiatement — Parlons de votre projet !" accent={C.orange} />
+
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "2rem", alignItems: "start", width: "100%" }}>
+
+                {/* Left — Info cards */}
+                <div style={{ display: "flex", flexDirection: "column", gap: "1rem", width: "100%" }}>
+                    {infos.map(info => (
+                        <div key={info.label} style={{ background: C.bgCard, border: `1px solid ${info.color}25`, borderRadius: 14, padding: "1.2rem 1.4rem", backdropFilter: "blur(10px)", transition: "all 0.3s", display: "flex", alignItems: "center", gap: "1rem", boxShadow: "0 4px 16px rgba(0,0,0,0.05)" }}
+                            onMouseEnter={e => { e.currentTarget.style.borderColor = info.color; e.currentTarget.style.transform = "translateX(6px)"; e.currentTarget.style.boxShadow = `0 8px 24px ${info.color}25`; }}
+                            onMouseLeave={e => { e.currentTarget.style.borderColor = info.color + "25"; e.currentTarget.style.transform = "translateX(0)"; e.currentTarget.style.boxShadow = "0 4px 16px rgba(0,0,0,0.05)"; }}
+                        >
+                            <div style={{ width: 46, height: 46, borderRadius: 12, background: `linear-gradient(135deg, ${info.color}22, ${info.color}44)`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.4rem", flexShrink: 0 }}>{info.icon}</div>
+                            <div>
+                                <div style={{ fontFamily: "'Lato', sans-serif", fontSize: "0.72rem", color: C.textMute, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 2 }}>{info.label}</div>
+                                {info.href ? (
+                                    <a href={info.href} target={info.href.startsWith("http") ? "_blank" : "_self"} rel="noreferrer" style={{ color: info.color, fontFamily: "'Lato', sans-serif", fontSize: "0.9rem", fontWeight: 600, textDecoration: "none" }}>{info.val}</a>
+                                ) : (
+                                    <span style={{ color: C.text, fontFamily: "'Lato', sans-serif", fontSize: "0.9rem", fontWeight: 600 }}>{info.val}</span>
+                                )}
+                            </div>
+                        </div>
+                    ))}
+
+                    {/* Availability badge */}
+                    <div style={{ background: `linear-gradient(135deg, ${C.green}15, ${C.cyan}15)`, border: `1px solid ${C.green}44`, borderRadius: 14, padding: "1.2rem 1.4rem", textAlign: "center" }}>
+                        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.6rem", marginBottom: "0.4rem" }}>
+                            <span style={{ width: 10, height: 10, borderRadius: "50%", background: C.green, display: "inline-block", boxShadow: `0 0 10px ${C.green}` }} />
+                            <span style={{ fontFamily: "'Lato', sans-serif", fontWeight: 700, color: C.green, fontSize: "0.9rem" }}>Disponible immédiatement</span>
+                        </div>
+                        <p style={{ fontFamily: "'Lato', sans-serif", fontSize: "0.8rem", color: C.textSub, margin: 0 }}>Open to CDI, CDD, missions freelance</p>
+                    </div>
+                </div>
+
+                {/* Right — Form */}
+                <div style={{ background: C.bgCard, border: `1px solid rgba(99,102,241,0.15)`, borderRadius: 20, padding: "2.5rem", backdropFilter: "blur(14px)", boxShadow: "0 8px 30px rgba(0,0,0,0.08)", width: "100%" }}>
+                    <div style={{ height: 4, borderRadius: 2, background: `linear-gradient(90deg, ${C.blue}, ${C.violet}, ${C.pink})`, marginBottom: "2rem" }} />
+
+                    {status === "sent" ? (
+                        <div style={{ textAlign: "center", padding: "3rem 1rem" }}>
+                            <div style={{ fontSize: "4rem", marginBottom: "1rem" }}>🎉</div>
+                            <h3 style={{ fontFamily: "'Playfair Display', serif", color: C.green, margin: "0 0 0.5rem", fontSize: "1.5rem" }}>Message envoyé !</h3>
+                            <p style={{ color: C.textSub, fontFamily: "'Lato', sans-serif" }}>Merci pour votre message. Je vous répondrai très bientôt.</p>
+                            <button onClick={() => { setForm({ name: "", email: "", subject: "", message: "" }); setStatus("idle"); }} style={{ marginTop: "1.5rem", padding: "0.7rem 2rem", borderRadius: 8, background: `linear-gradient(135deg, ${C.blue}, ${C.violet})`, color: "#fff", border: "none", fontFamily: "'Lato', sans-serif", fontSize: "0.9rem", cursor: "pointer", fontWeight: 600 }}>Nouveau message</button>
+                        </div>
+                    ) : (
+                        <>
+                            <h3 style={{ fontFamily: "'Playfair Display', serif", color: C.text, margin: "0 0 1.5rem", fontSize: "1.3rem" }}>Envoyez-moi un message</h3>
+
+                            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1rem", marginBottom: "1rem" }}>
+                                <div>
+                                    <label style={{ fontFamily: "'Lato', sans-serif", fontSize: "0.8rem", color: C.textSub, display: "block", marginBottom: "0.4rem", fontWeight: 600 }}>Nom complet *</label>
+                                    <input
+                                        value={form.name}
+                                        onChange={e => setForm({ ...form, name: e.target.value })}
+                                        onFocus={() => setFocused("name")}
+                                        onBlur={() => setFocused(null)}
+                                        placeholder="Votre nom"
+                                        style={inputStyle("name")}
+                                    />
+                                    {errors.name && <span style={{ color: C.pink, fontSize: "0.75rem", fontFamily: "'Lato', sans-serif" }}>{errors.name}</span>}
+                                </div>
+                                <div>
+                                    <label style={{ fontFamily: "'Lato', sans-serif", fontSize: "0.8rem", color: C.textSub, display: "block", marginBottom: "0.4rem", fontWeight: 600 }}>Email *</label>
+                                    <input
+                                        type="email"
+                                        value={form.email}
+                                        onChange={e => setForm({ ...form, email: e.target.value })}
+                                        onFocus={() => setFocused("email")}
+                                        onBlur={() => setFocused(null)}
+                                        placeholder="votre@email.com"
+                                        style={inputStyle("email")}
+                                    />
+                                    {errors.email && <span style={{ color: C.pink, fontSize: "0.75rem", fontFamily: "'Lato', sans-serif" }}>{errors.email}</span>}
+                                </div>
+                            </div>
+
+                            <div style={{ marginBottom: "1rem" }}>
+                                <label style={{ fontFamily: "'Lato', sans-serif", fontSize: "0.8rem", color: C.textSub, display: "block", marginBottom: "0.4rem", fontWeight: 600 }}>Sujet *</label>
+                                <input
+                                    value={form.subject}
+                                    onChange={e => setForm({ ...form, subject: e.target.value })}
+                                    onFocus={() => setFocused("subject")}
+                                    onBlur={() => setFocused(null)}
+                                    placeholder="Objet de votre message"
+                                    style={inputStyle("subject")}
+                                />
+                                {errors.subject && <span style={{ color: C.pink, fontSize: "0.75rem", fontFamily: "'Lato', sans-serif" }}>{errors.subject}</span>}
+                            </div>
+
+                            <div style={{ marginBottom: "1.5rem" }}>
+                                <label style={{ fontFamily: "'Lato', sans-serif", fontSize: "0.8rem", color: C.textSub, display: "block", marginBottom: "0.4rem", fontWeight: 600 }}>Message *</label>
+                                <textarea
+                                    rows={5}
+                                    value={form.message}
+                                    onChange={e => setForm({ ...form, message: e.target.value })}
+                                    onFocus={() => setFocused("message")}
+                                    onBlur={() => setFocused(null)}
+                                    placeholder="Décrivez votre projet ou opportunité..."
+                                    style={{ ...inputStyle("message"), resize: "vertical", minHeight: 130 }}
+                                />
+                                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                    {errors.message ? <span style={{ color: C.pink, fontSize: "0.75rem", fontFamily: "'Lato', sans-serif" }}>{errors.message}</span> : <span />}
+                                    <span style={{ color: C.textMute, fontSize: "0.73rem", fontFamily: "'Lato', sans-serif" }}>{form.message.length} car.</span>
+                                </div>
+                            </div>
+
+                            <button
+                                onClick={handleSubmit}
+                                disabled={status === "sending"}
+                                style={{
+                                    width: "100%", padding: "0.9rem", borderRadius: 10, border: "none",
+                                    background: status === "sending" ? C.textMute : `linear-gradient(135deg, ${C.blue}, ${C.violet}, ${C.pink})`,
+                                    backgroundSize: "200% 200%",
+                                    color: "#fff", fontFamily: "'Lato', sans-serif", fontSize: "1rem",
+                                    fontWeight: 700, cursor: status === "sending" ? "not-allowed" : "pointer",
+                                    transition: "all 0.3s", letterSpacing: "0.05em",
+                                    boxShadow: status === "sending" ? "none" : `0 6px 20px ${C.violet}44`,
+                                    animation: status === "sending" ? "none" : undefined,
+                                }}
+                                onMouseEnter={e => { if (status !== "sending") { e.target.style.transform = "translateY(-2px)"; e.target.style.boxShadow = `0 10px 30px ${C.violet}55`; } }}
+                                onMouseLeave={e => { e.target.style.transform = "translateY(0)"; e.target.style.boxShadow = `0 6px 20px ${C.violet}44`; }}
+                            >
+                                {status === "sending" ? "⏳  Envoi en cours..." : "🚀  Envoyer le message"}
+                            </button>
+                        </>
+                    )}
+                </div>
+            </div>
+        </section>
+    );
 }
