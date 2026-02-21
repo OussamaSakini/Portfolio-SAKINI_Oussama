@@ -28,12 +28,12 @@ export default function Hero() {
                     {/* Tag line */}
                     <div style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", background: `linear-gradient(90deg, ${C.blue}15, ${C.violet}15)`, border: `1px solid ${C.blue}33`, borderRadius: 20, padding: "4px 16px", marginBottom: "1rem" }}>
                         <span style={{ width: 6, height: 6, borderRadius: "50%", background: C.green, display: "inline-block", boxShadow: `0 0 8px ${C.green}` }} />
-                        <span style={{ fontFamily: "'Lato', sans-serif", color: C.blue, letterSpacing: "0.25em", fontSize: "0.75rem", textTransform: "uppercase" }}>Disponible · Portfolio 2025</span>
+                        <span style={{ fontFamily: "'Lato', sans-serif", color: C.blue, letterSpacing: "0.25em", fontSize: "0.75rem", textTransform: "uppercase" }}>Disponible</span>
                     </div>
 
                     <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2.5rem,7vw,5rem)", color: C.text, margin: "0 0 0.5rem", lineHeight: 1.1 }}>
                         Oussama{" "}
-                        <span style={{ background: HERO_GRAD, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Sakini</span>
+                        <span style={{ background: HERO_GRAD, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>SAKINI</span>
                     </h1>
 
                     <h2 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, fontSize: "clamp(1rem,2.5vw,1.5rem)", color: C.textMute, margin: "0 0 2rem", letterSpacing: "0.03em", minHeight: "2rem" }}>
@@ -41,17 +41,16 @@ export default function Hero() {
                     </h2>
 
                     <p style={{ color: C.textSub, maxWidth: 560, margin: "0 auto 2.5rem", lineHeight: 1.85, fontFamily: "'Lato', sans-serif", fontSize: "0.95rem" }}>
-                        Spécialisé en IA, ML et IA générative. Expériences significatives au{" "}
-                        <strong style={{ color: C.blue }}>Crédit Agricole</strong> et au{" "}
-                        <strong style={{ color: C.violet }}>CEA</strong>. Basé à Reims, disponible immédiatement.
+                        Ingénieur en Intelligence Artificielle et Data Scientist spécialisé en ML, DL et IA Gen.
+                        Je conçois des solutions intelligentes, robustes et orientées impact.
                     </p>
 
                     {/* CTA buttons */}
                     <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap", width: "100%" }}>
                         {[
                             { label: "📧 Me contacter", href: "#contact", grad: `linear-gradient(135deg, ${C.blue}, ${C.violet})` },
-                            { label: "💼 LinkedIn", href: "https://linkedin.com/in/oussama-sakini", grad: `linear-gradient(135deg, ${C.violet}, ${C.pink})` },
-                            { label: "⚡ GitHub", href: "https://github.com/Oussama-Sakini", grad: `linear-gradient(135deg, ${C.pink}, ${C.orange})` },
+                            { label: "💼 LinkedIn", href: "https://www.linkedin.com/in/oussama-sakini-3b6755273/", grad: `linear-gradient(135deg, ${C.violet}, ${C.pink})` },
+                            { label: "⚡ GitHub", href: "https://github.com/OussamaSakini", grad: `linear-gradient(135deg, ${C.pink}, ${C.orange})` },
                         ].map(btn => (
                             <a key={btn.label} href={btn.href} target={btn.href.startsWith("http") ? "_blank" : "_self"} rel="noreferrer"
                                 style={{ padding: "0.75rem 1.8rem", borderRadius: 8, background: btn.grad, color: "#fff", textDecoration: "none", fontFamily: "'Lato', sans-serif", fontSize: "0.9rem", fontWeight: 600, letterSpacing: "0.04em", transition: "all 0.3s", boxShadow: "0 4px 15px rgba(0,0,0,0.12)" }}
@@ -62,12 +61,11 @@ export default function Hero() {
                     </div>
 
                     {/* Stats row */}
-                    <div style={{ display: "flex", gap: "2.5rem", justifyContent: "center", marginTop: "3rem", flexWrap: "wrap", width: "100%" }}>
+                    <div style={{ display: "flex", gap: "3rem", justifyContent: "center", marginTop: "3.5rem", flexWrap: "wrap", width: "100%" }}>
                         {[
                             { val: "3+", label: "Expériences", color: C.blue },
                             { val: "5+", label: "Projets IA", color: C.violet },
                             { val: "3", label: "Langues", color: C.pink },
-                            { val: "M2", label: "Data Science", color: C.cyan },
                         ].map(s => (
                             <div key={s.label} style={{ textAlign: "center" }}>
                                 <div style={{ fontFamily: "'Playfair Display', serif", fontSize: "2rem", fontWeight: 700, color: s.color }}>{s.val}</div>
@@ -78,11 +76,6 @@ export default function Hero() {
                 </div>
             </div>
 
-            {/* scroll */}
-            <div style={{ position: "absolute", bottom: "2rem", display: "flex", flexDirection: "column", alignItems: "center", gap: "0.4rem", animation: "float 2s ease-in-out infinite" }}>
-                <div style={{ width: 1, height: 45, background: `linear-gradient(to bottom, transparent, ${C.blue})` }} />
-                <span style={{ color: C.blue, fontSize: "0.65rem", letterSpacing: "0.2em", fontFamily: "'Lato', sans-serif" }}>SCROLL</span>
-            </div>
         </section>
     );
 }

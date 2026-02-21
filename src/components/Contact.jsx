@@ -40,7 +40,7 @@ export default function Contact() {
         { icon: "📧", label: "Email", val: "sakini.oussama@gmail.com", href: "mailto:sakini.oussama@gmail.com", color: C.blue },
         { icon: "📞", label: "Téléphone", val: "+33 7 58 67 57 34", href: "tel:+33758675734", color: C.violet },
         { icon: "📍", label: "Localisation", val: "Reims, France", href: null, color: C.pink },
-        { icon: "💼", label: "LinkedIn", val: "Oussama SAKINI", href: "https://linkedin.com/in/oussama-sakini", color: C.cyan },
+        { icon: "💼", label: "LinkedIn", val: "Oussama SAKINI", href: "https://www.linkedin.com/in/oussama-sakini-3b6755273/", color: C.cyan },
     ];
 
     return (

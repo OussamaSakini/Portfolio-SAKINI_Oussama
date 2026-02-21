@@ -8,7 +8,7 @@ const certs = [
     { title: "Deep Learning Specialization", org: "Coursera / deeplearning.ai", year: "2025 (en cours)", icon: "🤖", color: C.cyan },
     { title: "Master M2 Data Science", org: "Université Claude Bernard Lyon 1", year: "2025", icon: "🎓", color: C.blue },
     { title: "Diplôme Ingénieur IA", org: "Arts Et Métiers ENSAM", year: "2024", icon: "🏛️", color: C.violet },
-    { title: "Master Management Tech Interactives", org: "ENSAM Cluny", year: "2024", icon: "🎖️", color: C.pink },
+    { title: "Master Management Tech Interactives", org: "Institut Art Cluny", year: "2024", icon: "🎖️", color: C.pink },
 ];
 
 export default function Certifications() {
