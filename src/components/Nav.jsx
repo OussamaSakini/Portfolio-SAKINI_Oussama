@@ -26,6 +26,23 @@ export default function Nav() {
                         onMouseLeave={e => e.target.style.color = C.textSub}
                     >{l.label}</a>
                 ))}
+                <a href="/CV_OUSSAMA_SAKINI.pdf" download style={{
+                    fontFamily: "'DM Mono', monospace",
+                    fontSize: 11,
+                    letterSpacing: "0.18em",
+                    textTransform: "uppercase",
+                    color: "white",
+                    textDecoration: "none",
+                    transition: "color 0.2s",
+                    cursor: "none",
+                    padding: "8px 8px",
+                    border: "1px solid #4F46E5",
+                    background: "#4F46E5",
+                    borderRadius: 4,
+                    display: "inline-block"
+                }}>
+                    Download CV
+                </a>
             </div>
         </nav>
     );

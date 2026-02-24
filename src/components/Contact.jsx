@@ -1,29 +1,50 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { C } from "../styles/colors";
 import SectionHeader from "./SectionHeader";
+import emailjs from "@emailjs/browser";
 
 export default function Contact() {
-    const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
+    const formRef = useRef();
+    const [form, setForm] = useState({ name: "", email: "", phone: "", subject: "", message: "" });
     const [status, setStatus] = useState("idle"); // idle | sending | sent | error
     const [focused, setFocused] = useState(null);
     const [errors, setErrors] = useState({});
 
     const validate = () => {
-        const e = {};
-        if (!form.name.trim()) e.name = "Nom requis";
-        if (!form.email.trim() || !/\S+@\S+\.\S+/.test(form.email)) e.email = "Email invalide";
-        if (!form.subject.trim()) e.subject = "Sujet requis";
-        if (!form.message.trim() || form.message.length < 10) e.message = "Message trop court (min. 10 car.)";
-        return e;
+        const newErrors = {};
+        if (!form.name.trim()) newErrors.name = "Le nom est requis";
+        if (!form.email.trim()) {
+            newErrors.email = "L'email est requis";
+        } else if (!/\S+@\S+\.\S+/.test(form.email)) {
+            newErrors.email = "Email invalide";
+        }
+        if (!form.subject.trim()) newErrors.subject = "Le sujet est requis";
+        if (!form.message.trim()) newErrors.message = "Le message est requis";
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = () => {
-        const e = validate();
-        if (Object.keys(e).length > 0) { setErrors(e); return; }
-        setErrors({});
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        if (!validate()) return;
+
         setStatus("sending");
-        // Simulate send
-        setTimeout(() => setStatus("sent"), 2000);
+
+        const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+        const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+        const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+        emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, formRef.current, PUBLIC_KEY)
+            .then((result) => {
+                setStatus("sent");
+                setForm({ name: "", email: "", phone: "", subject: "", message: "" });
+            }, (error) => {
+                setStatus("error");
+                alert("Une erreur est survenue lors de l'envoi du message. Veuillez réessayer.");
+                console.error(error.text);
+            });
     };
 
     const inputStyle = (field) => ({
@@ -87,16 +108,17 @@ export default function Contact() {
                             <div style={{ fontSize: "4rem", marginBottom: "1rem" }}>🎉</div>
                             <h3 style={{ fontFamily: "'Playfair Display', serif", color: C.green, margin: "0 0 0.5rem", fontSize: "1.5rem" }}>Message envoyé !</h3>
                             <p style={{ color: C.textSub, fontFamily: "'Lato', sans-serif" }}>Merci pour votre message. Je vous répondrai très bientôt.</p>
-                            <button onClick={() => { setForm({ name: "", email: "", subject: "", message: "" }); setStatus("idle"); }} style={{ marginTop: "1.5rem", padding: "0.7rem 2rem", borderRadius: 8, background: `linear-gradient(135deg, ${C.blue}, ${C.violet})`, color: "#fff", border: "none", fontFamily: "'Lato', sans-serif", fontSize: "0.9rem", cursor: "pointer", fontWeight: 600 }}>Nouveau message</button>
+                            <button onClick={() => { setForm({ name: "", email: "", phone: "", subject: "", message: "" }); setStatus("idle"); }} style={{ marginTop: "1.5rem", padding: "0.7rem 2rem", borderRadius: 8, background: `linear-gradient(135deg, ${C.blue}, ${C.violet})`, color: "#fff", border: "none", fontFamily: "'Lato', sans-serif", fontSize: "0.9rem", cursor: "pointer", fontWeight: 600 }}>Nouveau message</button>
                         </div>
                     ) : (
-                        <>
+                        <form ref={formRef} onSubmit={handleSubmit}>
                             <h3 style={{ fontFamily: "'Playfair Display', serif", color: C.text, margin: "0 0 1.5rem", fontSize: "1.3rem" }}>Envoyez-moi un message</h3>
 
                             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1rem", marginBottom: "1rem" }}>
                                 <div>
                                     <label style={{ fontFamily: "'Lato', sans-serif", fontSize: "0.8rem", color: C.textSub, display: "block", marginBottom: "0.4rem", fontWeight: 600 }}>Nom complet *</label>
                                     <input
+                                        name="user_name"
                                         value={form.name}
                                         onChange={e => setForm({ ...form, name: e.target.value })}
                                         onFocus={() => setFocused("name")}
@@ -110,6 +132,7 @@ export default function Contact() {
                                     <label style={{ fontFamily: "'Lato', sans-serif", fontSize: "0.8rem", color: C.textSub, display: "block", marginBottom: "0.4rem", fontWeight: 600 }}>Email *</label>
                                     <input
                                         type="email"
+                                        name="user_email"
                                         value={form.email}
                                         onChange={e => setForm({ ...form, email: e.target.value })}
                                         onFocus={() => setFocused("email")}
@@ -121,22 +144,39 @@ export default function Contact() {
                                 </div>
                             </div>
 
-                            <div style={{ marginBottom: "1rem" }}>
-                                <label style={{ fontFamily: "'Lato', sans-serif", fontSize: "0.8rem", color: C.textSub, display: "block", marginBottom: "0.4rem", fontWeight: 600 }}>Sujet *</label>
-                                <input
-                                    value={form.subject}
-                                    onChange={e => setForm({ ...form, subject: e.target.value })}
-                                    onFocus={() => setFocused("subject")}
-                                    onBlur={() => setFocused(null)}
-                                    placeholder="Objet de votre message"
-                                    style={inputStyle("subject")}
-                                />
-                                {errors.subject && <span style={{ color: C.pink, fontSize: "0.75rem", fontFamily: "'Lato', sans-serif" }}>{errors.subject}</span>}
+                            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1rem", marginBottom: "1rem" }}>
+                                <div>
+                                    <label style={{ fontFamily: "'Lato', sans-serif", fontSize: "0.8rem", color: C.textSub, display: "block", marginBottom: "0.4rem", fontWeight: 600 }}>Téléphone</label>
+                                    <input
+                                        type="tel"
+                                        name="user_phone"
+                                        value={form.phone}
+                                        onChange={e => setForm({ ...form, phone: e.target.value })}
+                                        onFocus={() => setFocused("phone")}
+                                        onBlur={() => setFocused(null)}
+                                        placeholder="+33 6 00 00 00 00"
+                                        style={inputStyle("phone")}
+                                    />
+                                </div>
+                                <div>
+                                    <label style={{ fontFamily: "'Lato', sans-serif", fontSize: "0.8rem", color: C.textSub, display: "block", marginBottom: "0.4rem", fontWeight: 600 }}>Sujet *</label>
+                                    <input
+                                        name="subject"
+                                        value={form.subject}
+                                        onChange={e => setForm({ ...form, subject: e.target.value })}
+                                        onFocus={() => setFocused("subject")}
+                                        onBlur={() => setFocused(null)}
+                                        placeholder="Objet de votre message"
+                                        style={inputStyle("subject")}
+                                    />
+                                    {errors.subject && <span style={{ color: C.pink, fontSize: "0.75rem", fontFamily: "'Lato', sans-serif" }}>{errors.subject}</span>}
+                                </div>
                             </div>
 
                             <div style={{ marginBottom: "1.5rem" }}>
                                 <label style={{ fontFamily: "'Lato', sans-serif", fontSize: "0.8rem", color: C.textSub, display: "block", marginBottom: "0.4rem", fontWeight: 600 }}>Message *</label>
                                 <textarea
+                                    name="message"
                                     rows={5}
                                     value={form.message}
                                     onChange={e => setForm({ ...form, message: e.target.value })}
@@ -152,7 +192,7 @@ export default function Contact() {
                             </div>
 
                             <button
-                                onClick={handleSubmit}
+                                type="submit"
                                 disabled={status === "sending"}
                                 style={{
                                     width: "100%", padding: "0.9rem", borderRadius: 10, border: "none",
@@ -162,14 +202,13 @@ export default function Contact() {
                                     fontWeight: 700, cursor: status === "sending" ? "not-allowed" : "pointer",
                                     transition: "all 0.3s", letterSpacing: "0.05em",
                                     boxShadow: status === "sending" ? "none" : `0 6px 20px ${C.violet}44`,
-                                    animation: status === "sending" ? "none" : undefined,
                                 }}
                                 onMouseEnter={e => { if (status !== "sending") { e.target.style.transform = "translateY(-2px)"; e.target.style.boxShadow = `0 10px 30px ${C.violet}55`; } }}
                                 onMouseLeave={e => { e.target.style.transform = "translateY(0)"; e.target.style.boxShadow = `0 6px 20px ${C.violet}44`; }}
                             >
-                                {status === "sending" ? "⏳  Envoi en cours..." : "🚀  Envoyer le message"}
+                                {status === "sending" ? "  Envoi en cours..." : "  Envoyer le message"}
                             </button>
-                        </>
+                        </form>
                     )}
                 </div>
             </div>
