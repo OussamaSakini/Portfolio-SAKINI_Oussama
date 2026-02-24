@@ -3,12 +3,21 @@ import { C } from "../styles/colors";
 import SectionHeader from "./SectionHeader";
 
 const timelineData = [
-    { type: "work", title: "Data Scientist", org: "Crédit Agricole Nord Est", loc: "Reims, France", period: "03/2025 – 09/2025", color: C.blue, icon: "💼", desc: "Scores prédictifs d'appétence, migration SAS → PySpark/Cloudera, collaboration marketing & CRM." },
+    {
+        type: "work", title: "Data Scientist", org: "Crédit Agricole Nord Est", loc: "Reims, France", period: "03/2025 – 09/2025", color: C.blue, icon: "💼", desc: `– Création de scores prédictifs d’appétence et de typologies clients afin d’optimiser la stratégie commerciale
+        – Développement de macros SAS pour la génération de variables et d’indicateurs métier.
+        – Participation à la migration potentielle de SAS vers un nouvel environnement de travail, à travers la conception de trames réutilisables et la rédaction de documentations techniques destinées à accélérer les futurs développements et à faciliter la montée en compétences de l’équipe.
+        – Collaboration avec les équipes Marketing, Finance, CRM et la caisse régionale d'Alsace Vosges.` },
     { type: "edu", title: "Master M2 Data Science", org: "Université Claude Bernard Lyon 1", loc: "Lyon, France", period: "2024 – 2025", color: C.cyan, icon: "🎓", desc: "Spécialisation approfondie en data science et machine learning avancé." },
-    { type: "work", title: "Ingénieur Développement VR", org: "CEA", loc: "Marcoule, France", period: "02/2024 – 08/2024", color: C.violet, icon: "💼", desc: "Simulateur VR immersif pour télémanipulateur nucléaire — Unity 3D, OpenCV, C#." },
-    { type: "edu", title: "Master Management Technologies Interactives", org: "Arts Et Métiers (ENSAM) Cluny", loc: "Chalon-Sur-Saône, France", period: "2023 – 2024", color: C.cyan, icon: "🎓", desc: "Double diplôme en management des technologies interactives." },
-    { type: "work", title: "Stagiaire Data Scientist", org: "AXA", loc: "Casablanca, Maroc", period: "07/2023 – 09/2023", color: C.pink, icon: "💼", desc: "Modèle XGBoost pour prédiction du churn client, analyse comportementale et fidélisation." },
-    { type: "edu", title: "Diplôme Ingénieur IA & Génie Informatique", org: "Arts Et Métiers (ENSAM)", loc: "Casablanca, Maroc", period: "2019 – 2024", color: C.cyan, icon: "🎓", desc: "Formation d'ingénieur d'état en Intelligence Artificielle et Génie Informatique." },
+    {
+        type: "work", title: "Ingénieur Développement VR", org: "CEA", loc: "Marcoule, France", period: "02/2024 – 08/2024", color: C.violet, icon: "💼", desc: `– Conception et développement d’un simulateur immersif en réalité virtuelle (VR) destiné à la télémanipulation en environnement nucléaire.
+        – Intégration du module d'OpenCV pour assister l’utilisateur et améliorer la précision des mouvements.
+– Évaluation ergonomique et cognitive du simulateur à l’aide de la méthode NASA - TLX(Task Load Index) afin de mesurer la charge mentale, physique et temporelle des utilisateurs.` },
+    { type: "edu", title: "Master Management Technologies Interactives", org: "Arts Et Métiers (ENSAM) Campus de Cluny", loc: "Chalon-Sur-Saône, France", period: "2023 – 2024", color: C.cyan, icon: "🎓", desc: "Double diplôme en management des technologies interactives." },
+    {
+        type: "work", title: "Stagiaire Data Scientist", org: "AXA", loc: "Casablanca, Maroc", period: "07/2023 – 09/2023", color: C.pink, icon: "💼", desc: `– Développement d’un modèle de machine learning basé sur XGBoost pour prédire l'attrition des clients.
+– Analyse des comportements clients pour identifier les profils à risque et mise en place de stratégies de fidélisation.` },
+    { type: "edu", title: "Diplôme Ingénieur IA & Génie Informatique", org: "Arts Et Métiers (ENSAM) Campus de Casablanca", loc: "Casablanca, Maroc", period: "2019 – 2024", color: C.cyan, icon: "🎓", desc: "Formation d'ingénieur d'état en Intelligence Artificielle et Génie Informatique." },
 ];
 
 export default function Timeline() {
@@ -50,7 +59,7 @@ export default function Timeline() {
                             <h3 style={{ fontFamily: "'Playfair Display', serif", color: C.text, margin: "0 0 0.25rem", fontSize: "1rem" }}>{item.title}</h3>
                             <p style={{ color: item.color, fontFamily: "'Lato', sans-serif", fontSize: "0.85rem", margin: "0 0 0.2rem", fontWeight: 600 }}>{item.org}</p>
                             <p style={{ color: C.textMute, fontFamily: "'Lato', sans-serif", fontSize: "0.78rem", margin: "0 0 0.7rem" }}>📍 {item.loc}</p>
-                            <p style={{ color: C.textSub, fontFamily: "'Lato', sans-serif", fontSize: "0.83rem", margin: 0, lineHeight: 1.65 }}>{item.desc}</p>
+                            <p style={{ color: C.textSub, fontFamily: "'Lato', sans-serif", fontSize: "0.83rem", margin: 0, lineHeight: 1.65, whiteSpace: "pre-line" }}>{item.desc}</p>
                         </div>
                     </div>
                 ))}

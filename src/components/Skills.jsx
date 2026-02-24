@@ -3,9 +3,9 @@ import SectionHeader from "./SectionHeader";
 import Badge from "./Badge";
 
 const skillGroups = [
-    { cat: "Data Science & IA", icon: "🧠", accent: C.blue, skills: ["Python", "Machine Learning", "Deep Learning", "NLP", "TensorFlow", "PyTorch", "Scikit-learn", "LLM", "Hugging Face", "LangChain", "Fine-tuning", "RAG"] },
-    { cat: "Data & Cloud", icon: "☁️", accent: C.cyan, skills: ["SQL", "MySQL", "Oracle", "MongoDB", "ChromaDB", "AWS", "Docker", "PySpark", "Cloudera", "Hive", "SAS"] },
-    { cat: "Développement", icon: "⚙️", accent: C.violet, skills: ["React", "Laravel", "Java", "C#", "Unity 3D", "OpenCV", "Git", "UML"] },
+    { cat: "Data Science & IA", icon: "🧠", accent: C.blue, skills: ["Python", "Machine Learning", "Deep Learning", "NLP", "TensorFlow", "PyTorch", "Scikit-learn", "LLM", "Hugging Face", "LangChain", "Fine-tuning", "RAG", "OpenCV"] },
+    { cat: "Database & Cloud", icon: "☁️", accent: C.cyan, skills: ["SQL", "MySQL", "Oracle", "MongoDB", "ChromaDB", "AWS", "Docker", "PySpark", "SAS"] },
+    { cat: "Développement", icon: "⚙️", accent: C.violet, skills: ["React", "C#", "Unity 3D", "Git", "GitHub", "UML"] },
 ];
 
 export default function Skills() {
