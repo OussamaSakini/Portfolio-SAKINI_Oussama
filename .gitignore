@@ -20,5 +20,8 @@ dist-ssr
 *.suo
 *.ntvs*
 *.njsproj
-*.sln
-*.sw?
+*.slna
+
+# Environment Variables
+.env
+.env.*

@@ -3,15 +3,16 @@ import SectionHeader from "./SectionHeader";
 import Badge from "./Badge";
 
 const skillGroups = [
-    { cat: "Data Science & IA", icon: "🧠", accent: C.blue, skills: ["Python", "Machine Learning", "Deep Learning", "NLP", "TensorFlow", "PyTorch", "Scikit-learn", "LLM", "Hugging Face", "LangChain", "Fine-tuning", "RAG", "OpenCV"] },
-    { cat: "Database & Cloud", icon: "☁️", accent: C.cyan, skills: ["SQL", "MySQL", "Oracle", "MongoDB", "ChromaDB", "AWS", "Docker", "PySpark", "SAS"] },
-    { cat: "Développement", icon: "⚙️", accent: C.violet, skills: ["React", "C#", "Unity 3D", "Git", "GitHub", "UML"] },
+    { cat: "Data Science & IA", icon: "🧠", accent: C.blue, skills: ["Python", "Pandas", "NumPy", "Matplotlib", "Seaborn", "Scikit-learn", "Machine Learning", "Deep Learning", "NLP", "TensorFlow", "PyTorch", "Feature Engineering", "OpenCV", "Time Series",] },
+    { cat: "GenAI & LLM", icon: "✨", accent: C.violet, skills: ["LLM", "Prompt Engineering", "RAG", "Fine-tuning", "Hugging Face", "LangChain", "ChromaDB", "Embeddings", "Vector Search", "AI Agents", "Evaluation LLM"] },
+    { cat: "Data Engineering & Cloud", icon: "☁️", accent: C.cyan, skills: ["SQL", "MySQL", "Oracle", "MongoDB", "PySpark", "SAS", "ETL / ELT", "Docker", "GitHub Actions", "CI/CD", "Git", "AWS"] },
+    { cat: "Développement", icon: "⚙️", accent: C.pink, skills: ["React", "JavaScript", "REST API", "C# for Unity", "Unity 3D", "Scrum", "UML", "GitHub"] },
 ];
 
 export default function Skills() {
     return (
         <section id="skills" style={{ padding: "6rem 2rem", position: "relative", zIndex: 1, width: "100%", margin: "0 auto" }}>
-            <SectionHeader title="Compétences" subtitle="Technologies & outils maîtrisés" accent={C.blue} />
+            <SectionHeader title="Compétences" /*subtitle="Technologies & outils maîtrisés"*/ accent={C.blue} />
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "1.5rem", width: "100%" }}>
                 {skillGroups.map(g => (
                     <div key={g.cat} style={{ background: C.bgCard, border: `1px solid ${g.accent}28`, borderRadius: 16, padding: "1.6rem", backdropFilter: "blur(12px)", transition: "all 0.3s", boxShadow: "0 4px 20px rgba(0,0,0,0.05)" }}

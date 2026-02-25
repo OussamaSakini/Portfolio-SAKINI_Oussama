@@ -19,7 +19,7 @@ export default function Nav() {
     return (
         <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, background: scrolled ? "rgba(245,247,255,0.92)" : "transparent", backdropFilter: scrolled ? "blur(20px)" : "none", borderBottom: scrolled ? "1px solid rgba(99,102,241,0.12)" : "none", transition: "all 0.4s", padding: "0.9rem 2rem", display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
             <span style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.3rem", letterSpacing: "0.05em", background: HERO_GRAD, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", fontWeight: 700 }}>OS</span>
-            <div style={{ display: "flex", gap: "1.5rem" }}>
+            <div style={{ display: "flex", gap: "1.5rem", alignItems: "center" }}>
                 {links.map(l => (
                     <a key={l.href} href={l.href} style={{ color: C.textSub, textDecoration: "none", fontFamily: "'Lato', sans-serif", fontSize: "0.8rem", letterSpacing: "0.06em", textTransform: "uppercase", transition: "color 0.2s", fontWeight: 600 }}
                         onMouseEnter={e => e.target.style.color = l.color}
@@ -33,13 +33,15 @@ export default function Nav() {
                     textTransform: "uppercase",
                     color: "white",
                     textDecoration: "none",
-                    transition: "color 0.2s",
-                    cursor: "none",
-                    padding: "8px 8px",
+                    cursor: "pointer",
+                    padding: "8px 12px",
                     border: "1px solid #4F46E5",
                     background: "#4F46E5",
-                    borderRadius: 4,
-                    display: "inline-block"
+                    borderRadius: 6,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    lineHeight: 1
                 }}>
                     Download CV
                 </a>

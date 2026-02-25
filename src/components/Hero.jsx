@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { C, HERO_GRAD } from "../styles/colors";
 import Typewriter from "./Typewriter";
 
+import profilePic from "../assets/Pdp CV.PNG";
+
 export default function Hero() {
     const [visible, setVisible] = useState(false);
     useEffect(() => { setTimeout(() => setVisible(true), 100); }, []);
@@ -15,10 +17,10 @@ export default function Hero() {
 
             <div style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(30px)", transition: "all 1s ease", width: "100%" }}>
                 {/* Avatar */}
-                <div style={{ position: "relative", display: "inline-block", marginBottom: "2rem" }}>
-                    <div style={{ width: 136, height: 136, borderRadius: "50%", background: HERO_GRAD, padding: 3, display: "inline-block", boxShadow: `0 0 50px ${C.blue}50, 0 0 80px ${C.violet}30`, animation: "rotateBorder 6s linear infinite" }}>
-                        <div style={{ width: "100%", height: "100%", borderRadius: "50%", background: C.bg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "2.8rem", fontFamily: "'Playfair Display', serif", background: "linear-gradient(135deg, #f8f0ff, #f0f8ff)" }}>
-                            <span style={{ background: HERO_GRAD, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>OS</span>
+                <div style={{ position: "relative", display: "inline-block", marginTop: "1.2rem", marginBottom: "2rem" }}>
+                    <div style={{ width: 140, height: 140, borderRadius: "50%", background: HERO_GRAD, padding: 3, display: "inline-block", boxShadow: `0 0 50px ${C.blue}40, 0 0 80px ${C.violet}20`, /*animation: "rotateBorder 6s linear infinite"*/ }}>
+                        <div style={{ width: "100%", height: "100%", borderRadius: "50%", background: C.bg, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
+                            <img src={profilePic} alt="Oussama Sakini" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                         </div>
                     </div>
                     <div style={{ position: "absolute", bottom: 8, right: 8, width: 20, height: 20, borderRadius: "50%", background: C.green, border: `3px solid ${C.bg}`, boxShadow: `0 0 12px ${C.green}` }} />
@@ -36,11 +38,11 @@ export default function Hero() {
                         <span style={{ background: HERO_GRAD, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>SAKINI</span>
                     </h1>
 
-                    <h2 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, fontSize: "clamp(1rem,2.5vw,1.5rem)", color: C.textMute, margin: "0 0 2rem", letterSpacing: "0.03em", minHeight: "2rem" }}>
+                    <h2 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, fontSize: "clamp(1rem,2.5vw,1.5rem)", color: C.textMute, margin: "0 0 2rem", letterSpacing: "0.03em", minHeight: "2rem" }}>
                         <Typewriter texts={["Ingénieur en Intelligence Artificielle", "Data Scientist", "ML & Deep Learning Engineer", "Generative AI Enthusiast"]} />
                     </h2>
 
-                    <p style={{ color: C.textSub, maxWidth: 560, margin: "0 auto 2.5rem", lineHeight: 1.85, fontFamily: "'Lato', sans-serif", fontSize: "0.95rem" }}>
+                    <p style={{ color: C.textPropos, maxWidth: 560, margin: "0 auto 2.5rem", lineHeight: 1.85, fontFamily: "'Lato', sans-serif", fontSize: "1.05rem" }}>
                         Ingénieur en Intelligence Artificielle et Data Scientist spécialisé en ML, DL et IA Gen.
                         Je conçois des solutions intelligentes, robustes et orientées impact.
                     </p>

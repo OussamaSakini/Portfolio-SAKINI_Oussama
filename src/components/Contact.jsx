@@ -59,32 +59,88 @@ export default function Contact() {
 
     const infos = [
         { icon: "📧", label: "Email", val: "sakini.oussama@gmail.com", href: "mailto:sakini.oussama@gmail.com", color: C.blue },
-        { icon: "📞", label: "Téléphone", val: "+33 7 58 67 57 34", href: "tel:+33758675734", color: C.violet },
-        { icon: "📍", label: "Localisation", val: "Reims, France", href: null, color: C.pink },
-        { icon: "💼", label: "LinkedIn", val: "Oussama SAKINI", href: "https://www.linkedin.com/in/oussama-sakini-3b6755273/", color: C.cyan },
+        { icon: "📞", label: "Téléphone", val: "+33 7 58 67 57 34", href: "tel:+33758675734", color: C.blue },
+        { icon: "📍", label: "Localisation", val: "Reims, FRANCE", href: null, color: C.blue },
+        { icon: "💼", label: "LinkedIn", val: "Oussama SAKINI", href: "https://www.linkedin.com/in/oussama-sakini-3b6755273/", color: C.blue },
     ];
 
     return (
         <section id="contact" style={{ padding: "6rem 2rem", position: "relative", zIndex: 1, width: "100%", margin: "0 auto" }}>
-            <SectionHeader title="Contact" subtitle="Disponible immédiatement — Parlons de votre projet !" accent={C.orange} />
+            <SectionHeader title="Contact" /*subtitle="Travillons ensemble — Parlons de votre projet !"*/ accent={C.blue} />
 
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "2rem", alignItems: "start", width: "100%" }}>
 
                 {/* Left — Info cards */}
-                <div style={{ display: "flex", flexDirection: "column", gap: "1rem", width: "100%" }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: "1.2rem", width: "100%" }}>
                     {infos.map(info => (
-                        <div key={info.label} style={{ background: C.bgCard, border: `1px solid ${info.color}25`, borderRadius: 14, padding: "1.2rem 1.4rem", backdropFilter: "blur(10px)", transition: "all 0.3s", display: "flex", alignItems: "center", gap: "1rem", boxShadow: "0 4px 16px rgba(0,0,0,0.05)" }}
-                            onMouseEnter={e => { e.currentTarget.style.borderColor = info.color; e.currentTarget.style.transform = "translateX(6px)"; e.currentTarget.style.boxShadow = `0 8px 24px ${info.color}25`; }}
-                            onMouseLeave={e => { e.currentTarget.style.borderColor = info.color + "25"; e.currentTarget.style.transform = "translateX(0)"; e.currentTarget.style.boxShadow = "0 4px 16px rgba(0,0,0,0.05)"; }}
+                        <div key={info.label} style={{
+                            background: "rgba(255, 255, 255, 0.7)",
+                            border: "1px solid rgba(255, 255, 255, 0.5)",
+                            borderRadius: 16,
+                            padding: "1rem 1.2rem",
+                            backdropFilter: "blur(12px)",
+                            transition: "all 0.35s cubic-bezier(0.4, 0, 0.2, 1)",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "1.2rem",
+                            boxShadow: "0 4px 20px rgba(0,0,0,0.03)",
+                            cursor: info.href ? "pointer" : "default"
+                        }}
+                            onMouseEnter={e => {
+                                e.currentTarget.style.transform = "translateY(-4px)";
+                                e.currentTarget.style.boxShadow = `0 12px 30px rgba(0,0,0,0.06), 0 0 15px ${info.color}10`;
+                                e.currentTarget.style.borderColor = info.color + "33";
+                                const link = e.currentTarget.querySelector(".info-val");
+                                if (link) link.style.color = info.color;
+                            }}
+                            onMouseLeave={e => {
+                                e.currentTarget.style.transform = "translateY(0)";
+                                e.currentTarget.style.boxShadow = "0 4px 20px rgba(0,0,0,0.03)";
+                                e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.5)";
+                                const link = e.currentTarget.querySelector(".info-val");
+                                if (link) link.style.color = C.text;
+                            }}
+                            onClick={() => info.href && window.open(info.href, info.href.startsWith("http") ? "_blank" : "_self")}
                         >
-                            <div style={{ width: 46, height: 46, borderRadius: 12, background: `linear-gradient(135deg, ${info.color}22, ${info.color}44)`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.4rem", flexShrink: 0 }}>{info.icon}</div>
-                            <div>
-                                <div style={{ fontFamily: "'Lato', sans-serif", fontSize: "0.72rem", color: C.textMute, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 2 }}>{info.label}</div>
-                                {info.href ? (
-                                    <a href={info.href} target={info.href.startsWith("http") ? "_blank" : "_self"} rel="noreferrer" style={{ color: info.color, fontFamily: "'Lato', sans-serif", fontSize: "0.9rem", fontWeight: 600, textDecoration: "none" }}>{info.val}</a>
-                                ) : (
-                                    <span style={{ color: C.text, fontFamily: "'Lato', sans-serif", fontSize: "0.9rem", fontWeight: 600 }}>{info.val}</span>
-                                )}
+                            {/* Icon Box */}
+                            <div style={{
+                                width: 44,
+                                height: 44,
+                                borderRadius: 12,
+                                background: "#fff",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                fontSize: "1.3rem",
+                                flexShrink: 0,
+                                border: `1px solid ${info.color}15`,
+                                boxShadow: "0 2px 8px rgba(0,0,0,0.04)"
+                            }}>
+                                {info.icon}
+                            </div>
+
+                            <div style={{ flex: 1 }}>
+                                <div style={{
+                                    fontFamily: "'Lato', sans-serif",
+                                    fontSize: "0.7rem",
+                                    color: C.textMute,
+                                    textTransform: "uppercase",
+                                    letterSpacing: "0.12em",
+                                    marginBottom: 2,
+                                    fontWeight: 700
+                                }}>
+                                    {info.label}
+                                </div>
+                                <div className="info-val" style={{
+                                    color: C.text,
+                                    fontFamily: "'Lato', sans-serif",
+                                    fontSize: "0.95rem",
+                                    fontWeight: 700,
+                                    transition: "color 0.3s ease",
+                                    wordBreak: "break-all"
+                                }}>
+                                    {info.val}
+                                </div>
                             </div>
                         </div>
                     ))}
@@ -95,7 +151,7 @@ export default function Contact() {
                             <span style={{ width: 10, height: 10, borderRadius: "50%", background: C.green, display: "inline-block", boxShadow: `0 0 10px ${C.green}` }} />
                             <span style={{ fontFamily: "'Lato', sans-serif", fontWeight: 700, color: C.green, fontSize: "0.9rem" }}>Disponible immédiatement</span>
                         </div>
-                        <p style={{ fontFamily: "'Lato', sans-serif", fontSize: "0.8rem", color: C.textSub, margin: 0 }}>Open to CDI, CDD, missions freelance</p>
+                        <p style={{ fontFamily: "'Lato', sans-serif", fontSize: "0.8rem", color: C.blue, margin: 0 }}>Disponible pour CDI, CDD et missions freelance</p>
                     </div>
                 </div>
 
