@@ -31,19 +31,25 @@ export default function App() {
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700;900&family=DM+Mono:wght@400;500&display=swap');
-        * { box-sizing: border-box; margin: 0; padding: 0; cursor: none !important; }
-        html { scroll-behavior: smooth; }
-        body { background: #f5f7ff; overflow-x: hidden; width: 100%; }
-        #root { width: 100%; }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        @media (min-width: 768px) {
+          * { cursor: none !important; }
+        }
+
+        html { scroll-behavior: smooth; overflow-x: hidden; width: 100%; }
+        body { background: #f5f7ff; overflow-x: hidden; width: 100%; -webkit-font-smoothing: antialiased; }
+        #root { width: 100%; overflow-x: hidden; }
+        
         @keyframes blink { 50% { opacity: 0; } }
         @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
-        @keyframes rotateBorder { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
         @keyframes shimmer { 0%{background-position:0% 50%} 100%{background-position:200% 50%} }
         
         /* Projects Grid Responsive */
         .projects-grid {
           display: grid;
-          gap: 1.5rem;
+          gap: clamp(1.5rem, 4vw, 2rem);
           width: 100%;
         }
         @media (min-width: 1024px) {
@@ -51,6 +57,9 @@ export default function App() {
         }
         @media (min-width: 768px) and (max-width: 1023px) {
           .projects-grid { grid-template-columns: repeat(2, 1fr) !important; }
+        }
+        @media (max-width: 767px) {
+          .projects-grid { grid-template-columns: 1fr !important; }
         }
 
         /* Certifications Transition */
@@ -63,13 +72,26 @@ export default function App() {
         }
         @media (prefers-reduced-motion: reduce) {
           .cert-card-anim { animation: none; }
-          * { cursor: auto !important; }
+          @media (min-width: 768px) {
+            * { cursor: auto !important; }
+          }
         }
 
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #eef0ff; }
         ::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, #2563eb, #7c3aed, #ec4899); border-radius: 3px; }
         input::placeholder, textarea::placeholder { color: #94a3b8; }
+        
+        /* Utility */
+        .hidden { display: none; }
+        .md\\:flex { display: flex; }
+        @media (max-width: 767px) {
+          .md\\:flex { display: none; }
+          .flex { display: flex; }
+        }
+        @media (min-width: 768px) {
+          .md\\:hidden { display: none; }
+        }
       `}</style>
 
       {/* Custom Cursor */}

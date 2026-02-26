@@ -82,42 +82,43 @@ export default function Projects() {
     const displayed = filter === "All" ? projects : projects.filter(p => p.cat === filter);
 
     return (
-        <section id="projects" style={{ padding: "8rem 2rem", position: "relative", zIndex: 1, width: "100%", margin: "0 auto", overflow: "hidden" }}>
-            <SectionHeader title="Projets" /*subtitle="L'Intelligence Artificielle en Action"*/ accent={C.blue} />
+        <section id="projects" style={{ padding: "clamp(4rem, 10vw, 8rem) clamp(1rem, 5vw, 2.5rem)", position: "relative", zIndex: 1, width: "100%", maxWidth: "1400px", margin: "0 auto", overflow: "hidden" }}>
+            <SectionHeader title="Projets" accent={C.blue} />
 
             {/* Filter Navigation - Premium Glass */}
             <div style={{
                 display: "flex",
-                gap: "0.8rem",
+                gap: "clamp(0.4rem, 2vw, 0.8rem)",
                 justifyContent: "center",
-                marginBottom: "4rem",
                 flexWrap: "wrap",
                 width: "100%",
-                padding: "0.5rem",
-                borderRadius: "24px",
+                padding: "clamp(0.4rem, 2vw, 0.6rem)",
+                borderRadius: "20px",
                 background: "rgba(255, 255, 255, 0.4)",
                 backdropFilter: "blur(10px)",
                 border: "1px solid rgba(255, 255, 255, 0.5)",
-                maxWidth: "fit-content",
-                margin: "0 auto 4rem"
+                maxWidth: "700px",
+                margin: "0 auto clamp(2.5rem, 6vw, 4rem)"
             }}>
                 {cats.map(c => {
                     const col = catColors[c];
                     const isActive = filter === c;
                     return (
                         <button key={c} onClick={() => setFilter(c)} style={{
-                            padding: "0.6rem 1.6rem",
-                            borderRadius: "16px",
+                            padding: "clamp(0.5rem, 1.5vw, 0.6rem) clamp(1rem, 3vw, 1.6rem)",
+                            borderRadius: "14px",
                             border: "none",
                             background: isActive ? col : "transparent",
                             color: isActive ? "#fff" : C.textSub,
                             fontFamily: "'Lato', sans-serif",
-                            fontSize: "0.85rem",
+                            fontSize: "clamp(0.8rem, 2vw, 0.85rem)",
                             cursor: "pointer",
                             transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
                             fontWeight: 700,
                             boxShadow: isActive ? `0 8px 20px ${col}44` : "none",
-                            letterSpacing: "0.03em"
+                            letterSpacing: "0.03em",
+                            flex: "1 1 auto",
+                            minWidth: "60px"
                         }}
                             onMouseEnter={e => { if (!isActive) e.target.style.color = col; }}
                             onMouseLeave={e => { if (!isActive) e.target.style.color = C.textSub; }}

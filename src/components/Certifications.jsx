@@ -60,51 +60,52 @@ export default function Certifications() {
         certs[(cur + 1) % certs.length],
     ];
     return (
-        <section id="certs" style={{ padding: "6rem 2rem", position: "relative", zIndex: 1, width: "100%", margin: "0 auto", maxWidth: "1300px" }}>
+        <section id="certs" style={{ padding: "clamp(4rem, 10vw, 8rem) clamp(1rem, 5vw, 2.5rem)", position: "relative", zIndex: 1, width: "100%", margin: "0 auto", maxWidth: "1400px" }}>
             <SectionHeader title="Certifications" accent={C.blue} />
-            <div style={{ display: "flex", alignItems: "center", gap: "2.5rem", justifyContent: "center", width: "100%" }}>
-                <button onClick={prev} style={{ width: 44, height: 44, borderRadius: "50%", border: `2px solid ${C.blue}`, background: "rgba(255,255,255,0.8)", color: C.blue, fontSize: "1.2rem", cursor: "pointer", transition: "all 0.2s", flexShrink: 0, backdropFilter: "blur(8px)" }}
-                    onMouseEnter={e => { e.target.style.background = C.blue; e.target.style.color = "#fff"; }}
-                    onMouseLeave={e => { e.target.style.background = "rgba(255,255,255,0.8)"; e.target.style.color = C.blue; }}>‹</button>
+            <div style={{ display: "flex", alignItems: "center", gap: "clamp(0.5rem, 3vw, 2.5rem)", justifyContent: "center", width: "100%" }}>
+                <button onClick={prev} style={{ width: "clamp(40px, 8vw, 50px)", height: "clamp(40px, 8vw, 50px)", borderRadius: "50%", border: `2px solid ${C.blue}`, background: "rgba(255,255,255,0.8)", color: C.blue, fontSize: "1.5rem", cursor: "pointer", transition: "all 0.3s", flexShrink: 0, backdropFilter: "blur(8px)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 12px rgba(0,0,0,0.05)" }}
+                    onMouseEnter={e => { e.currentTarget.style.background = C.blue; e.currentTarget.style.color = "#fff"; }}
+                    onMouseLeave={e => { e.currentTarget.style.background = "rgba(255,255,255,0.8)"; e.currentTarget.style.color = C.blue; }}>‹</button>
 
-                <div style={{ display: "flex", gap: "2rem", overflow: "hidden", justifyContent: "center", flex: 1 }}>
+                <div style={{ display: "flex", gap: "1.5rem", overflow: "visible", justifyContent: "center", flex: 1, minHeight: "420px", alignItems: "center" }}>
                     {vis.map((c, i) => {
                         const isCenter = i === 1;
                         return (
                             <a key={`${c.title}-${cur}-${i}`} href={c.link} target="_blank" rel="noreferrer"
-                                className="cert-card-anim" style={{
-                                    width: isCenter ? 360 : 300,
+                                className={`cert-card-anim ${!isCenter ? "hidden md:flex" : "flex"}`} style={{
+                                    width: isCenter ? "clamp(280px, 80vw, 380px)" : "300px",
                                     flexShrink: 0,
-                                    background: isCenter ? `linear-gradient(135deg, ${c.color}15, ${c.color}05)` : "rgba(255,255,255,0.6)",
-                                    border: `${isCenter ? 2 : 1}px solid ${isCenter ? c.color : c.color + "40"}`,
-                                    borderRadius: 16,
-                                    padding: "2rem 1.5rem",
+                                    background: isCenter ? `linear-gradient(135deg, ${c.color}10, ${c.color}05)` : "rgba(255,255,255,0.4)",
+                                    border: `${isCenter ? 2 : 1}px solid ${isCenter ? c.color : c.color + "20"}`,
+                                    borderRadius: 24,
+                                    padding: "clamp(1.5rem, 5vw, 2.5rem) 1.5rem",
                                     textAlign: "center",
-                                    opacity: isCenter ? 1 : 0.65,
-                                    transform: isCenter ? "scale(1.06)" : "scale(0.9)",
-                                    transition: "all 0.4s ease",
-                                    backdropFilter: "blur(10px)",
-                                    boxShadow: isCenter ? `0 20px 50px ${c.color}30` : "none",
+                                    opacity: isCenter ? 1 : 0.4,
+                                    transform: isCenter ? "scale(1.05)" : "scale(0.9)",
+                                    transition: "all 0.5s cubic-bezier(0.19, 1, 0.22, 1)",
+                                    backdropFilter: "blur(12px)",
+                                    boxShadow: isCenter ? `0 25px 60px -15px ${c.color}25` : "none",
                                     textDecoration: "none",
-                                    display: "block"
+                                    flexDirection: "column",
+                                    alignItems: "center"
                                 }}
-                                onMouseEnter={e => { if (isCenter) e.currentTarget.style.transform = "scale(1.08) translateY(-5px)"; }}
-                                onMouseLeave={e => { if (isCenter) e.currentTarget.style.transform = "scale(1.06) translateY(0)"; }}
+                                onMouseEnter={e => { if (isCenter) { e.currentTarget.style.transform = "scale(1.08) translateY(-8px)"; e.currentTarget.style.boxShadow = `0 35px 70px -15px ${c.color}35`; } }}
+                                onMouseLeave={e => { if (isCenter) { e.currentTarget.style.transform = "scale(1.05) translateY(0)"; e.currentTarget.style.boxShadow = `0 25px 60px -15px ${c.color}25`; } }}
                             >
-                                <div style={{ height: 60, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "1rem" }}>
-                                    <img src={c.logo} alt={c.org} style={{ maxHeight: "100%", maxWidth: "80%", objectFit: "contain", filter: isCenter ? "none" : "grayscale(1) opacity(0.7)" }} />
+                                <div style={{ height: 70, width: "100%", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "1.5rem" }}>
+                                    <img src={c.logo} alt={c.org} style={{ maxHeight: "100%", maxWidth: "85%", objectFit: "contain", filter: isCenter ? "none" : "grayscale(1) opacity(0.5)" }} />
                                 </div>
-                                <div style={{ width: 40, height: 3, background: `linear-gradient(90deg, ${c.color}, ${c.color}88)`, margin: "0 auto 1rem", borderRadius: 2 }} />
-                                <h3 style={{ fontFamily: "'Playfair Display', serif", color: C.text, margin: "0 0 0.4rem", fontSize: isCenter ? "1.05rem" : "0.9rem", lineHeight: 1.3 }}>{c.title}</h3>
-                                <p style={{ color: c.color, fontFamily: "'Lato', sans-serif", fontSize: "0.85rem", margin: "0 0 0.3rem", fontWeight: 700 }}>{c.org}</p>
+                                <div style={{ width: 40, height: 4, background: `linear-gradient(90deg, ${c.color}, ${c.color}44)`, margin: "0 auto 1.5rem", borderRadius: 2 }} />
+                                <h3 style={{ fontFamily: "'Playfair Display', serif", color: C.text, margin: "0 0 0.5rem", fontSize: isCenter ? "1.15rem" : "0.95rem", fontWeight: 800, lineHeight: 1.3 }}>{c.title}</h3>
+                                <p style={{ color: c.color, fontFamily: "'Lato', sans-serif", fontSize: "0.9rem", margin: "0 0 0.5rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>{c.org}</p>
                             </a>
                         );
                     })}
                 </div>
 
-                <button onClick={next} style={{ width: 44, height: 44, borderRadius: "50%", border: `2px solid ${C.blue}`, background: "rgba(255,255,255,0.8)", color: C.blue, fontSize: "1.2rem", cursor: "pointer", transition: "all 0.2s", flexShrink: 0, backdropFilter: "blur(8px)" }}
-                    onMouseEnter={e => { e.target.style.background = C.blue; e.target.style.color = "#fff"; }}
-                    onMouseLeave={e => { e.target.style.background = "rgba(255,255,255,0.8)"; e.target.style.color = C.blue; }}>›</button>
+                <button onClick={next} style={{ width: "clamp(40px, 8vw, 50px)", height: "clamp(40px, 8vw, 50px)", borderRadius: "50%", border: `2px solid ${C.blue}`, background: "rgba(255,255,255,0.8)", color: C.blue, fontSize: "1.5rem", cursor: "pointer", transition: "all 0.3s", flexShrink: 0, backdropFilter: "blur(8px)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 12px rgba(0,0,0,0.05)" }}
+                    onMouseEnter={e => { e.currentTarget.style.background = C.blue; e.currentTarget.style.color = "#fff"; }}
+                    onMouseLeave={e => { e.currentTarget.style.background = "rgba(255,255,255,0.8)"; e.currentTarget.style.color = C.blue; }}>›</button>
             </div>
 
             <div style={{ display: "flex", gap: "0.5rem", justifyContent: "center", marginTop: "2rem" }}>
