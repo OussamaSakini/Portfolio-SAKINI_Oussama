@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { C, HERO_GRAD } from "../styles/colors";
 import Typewriter from "./Typewriter";
 
-import profilePic from "../assets/PDP2.PNG";
+import profilePic from "../assets/pdp2.png";
 
 export default function Hero() {
     const [visible, setVisible] = useState(false);
