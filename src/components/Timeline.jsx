@@ -24,7 +24,7 @@ export default function Timeline() {
     const [filter, setFilter] = useState("all");
     const data = filter === "all" ? timelineData : timelineData.filter(d => d.type === filter);
     return (
-        <section id="timeline" style={{ padding: "clamp(3rem, 8vw, 6rem) 2rem", position: "relative", zIndex: 1, width: "100%", margin: "0 auto", maxWidth: "1500px" }}>
+        <section id="timeline" style={{ padding: "6rem 2rem", position: "relative", zIndex: 1, width: "100%", margin: "0 auto", maxWidth: "1500px" }}>
             <SectionHeader title="Parcours" accent={C.blue} />
 
             {/* Filter tabs */}
@@ -56,6 +56,7 @@ export default function Timeline() {
                         {/* vertical line segment - connects dots from center to center (Desktop Only) */}
                         {i < data.length - 1 && (
                             <div
+                                className="md:block hidden"
                                 style={{
                                     position: "absolute",
                                     left: "50%",
@@ -67,38 +68,29 @@ export default function Timeline() {
                                     opacity: 0.2,
                                     zIndex: 1
                                 }}
-                                className="md:block hidden"
                             />
                         )}
                         {/* dot (Desktop Only) */}
                         <div
+                            className="md:block hidden"
                             style={{
                                 position: "absolute", left: "50%", top: "1.4rem",
                                 transform: "translateX(-50%)", width: 16, height: 16,
                                 borderRadius: "50%", background: C.blue, border: `3px solid ${C.bg}`,
                                 boxShadow: `0 0 15px ${C.blue}66`, zIndex: 2
                             }}
-                            className="md:block hidden"
                         />
 
-                        {/* Card */}
+                        {/* Timeline Card */}
                         <div
                             style={{
                                 background: C.bgCard, border: `1px solid ${C.blue}15`,
                                 borderRadius: 14, padding: "1.3rem 1.5rem", backdropFilter: "blur(10px)",
                                 transition: "all 0.3s", boxShadow: "0 4px 16px rgba(0,0,0,0.06)"
                             }}
-                            className="w-full md:w-[42%]"
-                            onMouseEnter={e => {
-                                e.currentTarget.style.borderColor = C.blue + "44";
-                                e.currentTarget.style.transform = window.innerWidth >= 768 ? "scale(1.02)" : "translateY(-5px)";
-                                e.currentTarget.style.boxShadow = `0 10px 30px ${C.blue}25`;
-                            }}
-                            onMouseLeave={e => {
-                                e.currentTarget.style.borderColor = C.blue + "15";
-                                e.currentTarget.style.transform = "scale(1)";
-                                e.currentTarget.style.boxShadow = "0 4px 16px rgba(0,0,0,0.06)";
-                            }}
+                            className="md:w-[42%] w-full"
+                            onMouseEnter={e => { e.currentTarget.style.borderColor = C.blue + "44"; e.currentTarget.style.transform = "scale(1.02)"; e.currentTarget.style.boxShadow = `0 10px 30px ${C.blue}25`; }}
+                            onMouseLeave={e => { e.currentTarget.style.borderColor = C.blue + "15"; e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.boxShadow = "0 4px 16px rgba(0,0,0,0.06)"; }}
                         >
                             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.5rem" }}>
                                 <span style={{ fontSize: "1.3rem" }}>{item.icon}</span>
