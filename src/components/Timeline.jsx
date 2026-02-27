@@ -23,12 +23,8 @@ const timelineData = [
 export default function Timeline() {
     const [filter, setFilter] = useState("all");
     const data = filter === "all" ? timelineData : timelineData.filter(d => d.type === filter);
-
     return (
-        <section id="timeline" style={{
-            padding: "clamp(4rem, 10vw, 6rem) clamp(1rem, 5vw, 2rem)",
-            position: "relative", zIndex: 1, width: "100%", margin: "0 auto", maxWidth: "1500px"
-        }}>
+        <section id="timeline" style={{ padding: "clamp(3rem, 8vw, 6rem) 2rem", position: "relative", zIndex: 1, width: "100%", margin: "0 auto", maxWidth: "1500px" }}>
             <SectionHeader title="Parcours" accent={C.blue} />
 
             {/* Filter tabs */}
@@ -46,30 +42,35 @@ export default function Timeline() {
             </div>
 
             <div style={{ position: "relative", width: "100%" }}>
-                {/* Vertical Line - Hidden on very small screens, moved on others */}
-                <div
-                    style={{
-                        position: "absolute",
-                        left: "50%",
-                        top: 0,
-                        bottom: 0,
-                        width: 2,
-                        background: `linear-gradient(to bottom, transparent, ${C.blue}30, ${C.blue}30, transparent)`,
-                        zIndex: 1
-                    }}
-                    className="md:block hidden"
-                />
-
                 {data.map((item, i) => (
-                    <div key={i} style={{
-                        display: "flex",
-                        justifyContent: i % 2 === 0 ? "flex-start" : "flex-end",
-                        marginBottom: "clamp(2rem, 5vw, 3.5rem)",
-                        position: "relative",
-                        width: "100%"
-                    }} className="md:flex-row flex-col">
-
-                        {/* Dot (Desktop) */}
+                    <div key={i}
+                        style={{
+                            display: "flex",
+                            justifyContent: i % 2 === 0 ? "flex-start" : "flex-end",
+                            marginBottom: "3.5rem",
+                            position: "relative",
+                            width: "100%"
+                        }}
+                        className="md:flex-row flex-col"
+                    >
+                        {/* vertical line segment - connects dots from center to center (Desktop Only) */}
+                        {i < data.length - 1 && (
+                            <div
+                                style={{
+                                    position: "absolute",
+                                    left: "50%",
+                                    top: "1.9rem",
+                                    height: "calc(100% + 3.5rem)",
+                                    width: 2,
+                                    background: C.blue,
+                                    transform: "translateX(-50%)",
+                                    opacity: 0.2,
+                                    zIndex: 1
+                                }}
+                                className="md:block hidden"
+                            />
+                        )}
+                        {/* dot (Desktop Only) */}
                         <div
                             style={{
                                 position: "absolute", left: "50%", top: "1.4rem",
@@ -80,29 +81,33 @@ export default function Timeline() {
                             className="md:block hidden"
                         />
 
-                        {/* Timeline Card */}
+                        {/* Card */}
                         <div
                             style={{
                                 background: C.bgCard, border: `1px solid ${C.blue}15`,
-                                borderRadius: 20, padding: "1.5rem", backdropFilter: "blur(10px)",
-                                transition: "all 0.3s", boxShadow: "0 10px 30px rgba(0,0,0,0.04)"
+                                borderRadius: 14, padding: "1.3rem 1.5rem", backdropFilter: "blur(10px)",
+                                transition: "all 0.3s", boxShadow: "0 4px 16px rgba(0,0,0,0.06)"
                             }}
-                            className="w-full md:w-[45%]"
-                            onMouseEnter={e => { e.currentTarget.style.borderColor = C.blue + "44"; e.currentTarget.style.transform = "translateY(-5px)"; e.currentTarget.style.boxShadow = `0 15px 40px ${C.blue}20`; }}
-                            onMouseLeave={e => { e.currentTarget.style.borderColor = C.blue + "15"; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 10px 30px rgba(0,0,0,0.04)"; }}
+                            className="w-full md:w-[42%]"
+                            onMouseEnter={e => {
+                                e.currentTarget.style.borderColor = C.blue + "44";
+                                e.currentTarget.style.transform = window.innerWidth >= 768 ? "scale(1.02)" : "translateY(-5px)";
+                                e.currentTarget.style.boxShadow = `0 10px 30px ${C.blue}25`;
+                            }}
+                            onMouseLeave={e => {
+                                e.currentTarget.style.borderColor = C.blue + "15";
+                                e.currentTarget.style.transform = "scale(1)";
+                                e.currentTarget.style.boxShadow = "0 4px 16px rgba(0,0,0,0.06)";
+                            }}
                         >
-                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.8rem" }}>
-                                <div style={{ width: 40, height: 40, borderRadius: 10, background: `${C.blue}10`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.2rem" }}>{item.icon}</div>
-                                <span style={{ fontSize: "0.75rem", color: C.blue, fontFamily: "'Lato', sans-serif", background: C.blue + "12", padding: "4px 12px", borderRadius: 10, fontWeight: 700 }}>{item.period}</span>
+                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.5rem" }}>
+                                <span style={{ fontSize: "1.3rem" }}>{item.icon}</span>
+                                <span style={{ fontSize: "0.7rem", color: C.blue, fontFamily: "'Lato', sans-serif", background: C.blue + "12", padding: "3px 10px", borderRadius: 10, fontWeight: 600 }}>{item.period}</span>
                             </div>
-
-                            <h3 style={{ fontFamily: "'Playfair Display', serif", color: C.text, margin: "0 0 0.3rem", fontSize: "1.1rem", fontWeight: 700 }}>{item.title}</h3>
-                            <p style={{ color: C.blue, fontFamily: "'Lato', sans-serif", fontSize: "0.9rem", margin: "0 0 0.2rem", fontWeight: 700 }}>{item.org}</p>
-                            <p style={{ color: C.textMute, fontFamily: "'Lato', sans-serif", fontSize: "0.8rem", margin: "0 0 1rem" }}>📍 {item.loc}</p>
-
-                            <div style={{ height: 1.5, width: 40, background: `linear-gradient(90deg, ${C.blue}40, transparent)`, marginBottom: "1rem" }} />
-
-                            <p style={{ color: C.textSub, fontFamily: "'Lato', sans-serif", fontSize: "0.85rem", margin: 0, lineHeight: 1.7, whiteSpace: "pre-line", textAlign: "justify" }}>{item.desc}</p>
+                            <h3 style={{ fontFamily: "'Playfair Display', serif", color: C.text, margin: "0 0 0.25rem", fontSize: "1rem" }}>{item.title}</h3>
+                            <p style={{ color: C.blue, fontFamily: "'Lato', sans-serif", fontSize: "0.85rem", margin: "0 0 0.2rem", fontWeight: 600 }}>{item.org}</p>
+                            <p style={{ color: C.textMute, fontFamily: "'Lato', sans-serif", fontSize: "0.78rem", margin: "0 0 0.7rem" }}>📍 {item.loc}</p>
+                            <p style={{ color: C.textSub, fontFamily: "'Lato', sans-serif", fontSize: "0.83rem", margin: 0, lineHeight: 1.65, whiteSpace: "pre-line", textAlign: "justify" }}>{item.desc}</p>
                         </div>
                     </div>
                 ))}
