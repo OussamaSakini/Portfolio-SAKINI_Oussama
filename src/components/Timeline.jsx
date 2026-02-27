@@ -23,83 +23,95 @@ const timelineData = [
 export default function Timeline() {
     const [filter, setFilter] = useState("all");
     const data = filter === "all" ? timelineData : timelineData.filter(d => d.type === filter);
+
     return (
-        <section id="timeline" style={{ padding: "6rem 2rem", position: "relative", zIndex: 1, width: "100%", margin: "0 auto", maxWidth: "1500px" }}>
+        <section id="timeline" style={{
+            padding: "clamp(4rem, 10vw, 8rem) clamp(1rem, 5vw, 2.5rem)",
+            position: "relative", zIndex: 1, width: "100%", margin: "0 auto", maxWidth: "1400px"
+        }}>
             <SectionHeader title="Parcours" accent={C.blue} />
 
             {/* Filter tabs */}
-            <div style={{ display: "flex", gap: "0.6rem", justifyContent: "center", marginBottom: "3rem", flexWrap: "wrap" }}>
-                {[{ v: "all", l: "✨ Tout", c: C.blue }, { v: "work", l: "💼 Expériences", c: C.blue }, { v: "edu", l: "🎓 Formations", c: C.blue }].map(f => (
+            <div style={{ display: "flex", gap: "0.6rem", justifyContent: "center", marginBottom: "clamp(2rem, 6vw, 4rem)", flexWrap: "wrap", width: "100%" }}>
+                {[{ v: "all", l: "✨ Tout" }, { v: "work", l: "💼 Expériences" }, { v: "edu", l: "🎓 Formations" }].map(f => (
                     <button key={f.v} onClick={() => setFilter(f.v)} style={{
-                        padding: "0.5rem 1.4rem", borderRadius: 20, border: "none",
-                        background: filter === f.v ? f.c : "rgba(255,255,255,0.7)",
+                        padding: "0.6rem 1.6rem", borderRadius: "14px", border: "none",
+                        background: filter === f.v ? C.blue : "rgba(255,255,255,0.6)",
                         color: filter === f.v ? "#fff" : C.textSub,
                         fontFamily: "'Lato', sans-serif", fontSize: "0.85rem", cursor: "pointer",
-                        transition: "all 0.25s", fontWeight: filter === f.v ? 600 : 400,
-                        boxShadow: filter === f.v ? `0 4px 14px ${f.c}44` : "0 2px 8px rgba(0,0,0,0.06)"
+                        transition: "all 0.35s cubic-bezier(0.4, 0, 0.2, 1)", fontWeight: 700,
+                        boxShadow: filter === f.v ? `0 10px 25px ${C.blue}30` : "0 4px 12px rgba(0,0,0,0.03)",
+                        flex: "1 1 auto", maxWidth: "180px"
                     }}>{f.l}</button>
                 ))}
             </div>
 
-            <div style={{ position: "relative", width: "100%" }}>
+            <div style={{ position: "relative", width: "100%", display: "flex", flexDirection: "column", gap: "2rem" }}>
+                {/* Central line (Desktop only) */}
+                <div className="hidden md:block" style={{ position: "absolute", left: "50%", top: "2rem", bottom: "2rem", width: 2, background: `linear-gradient(to bottom, transparent, ${C.blue}20, ${C.blue}20, transparent)`, transform: "translateX(-50%)" }} />
+
                 {data.map((item, i) => (
-                    <div key={i}
-                        style={{
+                    <div key={i} style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        position: "relative",
+                        width: "100%",
+                        alignItems: "center"
+                    }}>
+                        {/* Dot - Responsive Position */}
+                        <div className="md:absolute md:left-1/2 md:-translate-x-1/2 md:top-6 md:mb-0" style={{
+                            position: "relative",
+                            left: "auto",
+                            top: "0",
+                            transform: "none",
+                            width: 24, height: 24, borderRadius: "50%",
+                            background: C.bg, border: `4px solid ${C.blue}`,
+                            boxShadow: `0 0 15px ${C.blue}40`, zIndex: 5,
+                            marginBottom: "1rem",
+                            display: "flex", alignItems: "center", justifyContent: "center",
+                            fontSize: "0.6rem"
+                        }}>
+                            <div style={{ width: 6, height: 6, borderRadius: "50%", background: C.blue }} />
+                        </div>
+
+                        {/* Card Container */}
+                        <div style={{
+                            width: "100%",
                             display: "flex",
                             justifyContent: i % 2 === 0 ? "flex-start" : "flex-end",
-                            marginBottom: "3.5rem",
-                            position: "relative",
-                            width: "100%"
-                        }}
-                        className="md:flex-row flex-col"
-                    >
-                        {/* vertical line segment - connects dots from center to center (Desktop Only) */}
-                        {i < data.length - 1 && (
-                            <div
-                                className="md:block hidden"
-                                style={{
-                                    position: "absolute",
-                                    left: "50%",
-                                    top: "1.9rem",
-                                    height: "calc(100% + 3.5rem)",
-                                    width: 2,
-                                    background: C.blue,
-                                    transform: "translateX(-50%)",
-                                    opacity: 0.2,
-                                    zIndex: 1
-                                }}
-                            />
-                        )}
-                        {/* dot (Desktop Only) */}
-                        <div
-                            className="md:block hidden"
-                            style={{
-                                position: "absolute", left: "50%", top: "1.4rem",
-                                transform: "translateX(-50%)", width: 16, height: 16,
-                                borderRadius: "50%", background: C.blue, border: `3px solid ${C.bg}`,
-                                boxShadow: `0 0 15px ${C.blue}66`, zIndex: 2
+                            paddingLeft: "0", paddingRight: "0"
+                        }} className="md:px-0">
+                            <div style={{
+                                width: "100%",
+                                background: "rgba(255, 255, 255, 0.7)",
+                                border: `1px solid ${C.blue}15`,
+                                borderRadius: 24,
+                                padding: "clamp(1.2rem, 4vw, 2rem)",
+                                backdropFilter: "blur(12px)",
+                                transition: "all 0.4s cubic-bezier(0.19, 1, 0.22, 1)",
+                                boxShadow: "0 10px 30px rgba(0,0,0,0.04)",
+                                position: "relative"
                             }}
-                        />
+                                className="md:w-[45%]"
+                                onMouseEnter={e => { e.currentTarget.style.borderColor = C.blue + "44"; e.currentTarget.style.transform = "translateY(-6px)"; e.currentTarget.style.boxShadow = `0 20px 40px ${C.blue}15`; }}
+                                onMouseLeave={e => { e.currentTarget.style.borderColor = C.blue + "15"; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 10px 30px rgba(0,0,0,0.04)"; }}
+                            >
+                                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
+                                    <div style={{ width: 44, height: 44, borderRadius: 12, background: `${C.blue}12`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.5rem" }}>{item.icon}</div>
+                                    <span style={{ fontSize: "0.75rem", color: C.blue, fontFamily: "'Lato', sans-serif", background: C.blue + "12", padding: "6px 14px", borderRadius: 12, fontWeight: 800, letterSpacing: "0.02em" }}>{item.period}</span>
+                                </div>
 
-                        {/* Timeline Card */}
-                        <div
-                            style={{
-                                background: C.bgCard, border: `1px solid ${C.blue}15`,
-                                borderRadius: 14, padding: "1.3rem 1.5rem", backdropFilter: "blur(10px)",
-                                transition: "all 0.3s", boxShadow: "0 4px 16px rgba(0,0,0,0.06)"
-                            }}
-                            className="md:w-[42%] w-full"
-                            onMouseEnter={e => { e.currentTarget.style.borderColor = C.blue + "44"; e.currentTarget.style.transform = "scale(1.02)"; e.currentTarget.style.boxShadow = `0 10px 30px ${C.blue}25`; }}
-                            onMouseLeave={e => { e.currentTarget.style.borderColor = C.blue + "15"; e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.boxShadow = "0 4px 16px rgba(0,0,0,0.06)"; }}
-                        >
-                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.5rem" }}>
-                                <span style={{ fontSize: "1.3rem" }}>{item.icon}</span>
-                                <span style={{ fontSize: "0.7rem", color: C.blue, fontFamily: "'Lato', sans-serif", background: C.blue + "12", padding: "3px 10px", borderRadius: 10, fontWeight: 600 }}>{item.period}</span>
+                                <h3 style={{ fontFamily: "'Playfair Display', serif", color: C.text, margin: "0 0 0.4rem", fontSize: "1.2rem", fontWeight: 800 }}>{item.title}</h3>
+                                <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.4rem" }}>
+                                    <p style={{ color: C.blue, fontFamily: "'Lato', sans-serif", fontSize: "0.95rem", margin: 0, fontWeight: 700 }}>{item.org}</p>
+                                    <span style={{ color: C.textMute, fontSize: "0.8rem" }}>•</span>
+                                    <p style={{ color: C.textMute, fontFamily: "'Lato', sans-serif", fontSize: "0.85rem", margin: 0 }}>{item.loc}</p>
+                                </div>
+
+                                <div style={{ height: 2, width: 30, background: `linear-gradient(90deg, ${C.blue}, transparent)`, margin: "1rem 0", borderRadius: 1 }} />
+
+                                <p style={{ color: C.textSub, fontFamily: "'Lato', sans-serif", fontSize: "0.9rem", margin: 0, lineHeight: 1.8, whiteSpace: "pre-line", opacity: 0.9 }}>{item.desc}</p>
                             </div>
-                            <h3 style={{ fontFamily: "'Playfair Display', serif", color: C.text, margin: "0 0 0.25rem", fontSize: "1rem" }}>{item.title}</h3>
-                            <p style={{ color: C.blue, fontFamily: "'Lato', sans-serif", fontSize: "0.85rem", margin: "0 0 0.2rem", fontWeight: 600 }}>{item.org}</p>
-                            <p style={{ color: C.textMute, fontFamily: "'Lato', sans-serif", fontSize: "0.78rem", margin: "0 0 0.7rem" }}>📍 {item.loc}</p>
-                            <p style={{ color: C.textSub, fontFamily: "'Lato', sans-serif", fontSize: "0.83rem", margin: 0, lineHeight: 1.65, whiteSpace: "pre-line", textAlign: "justify" }}>{item.desc}</p>
                         </div>
                     </div>
                 ))}
